@@ -3,7 +3,7 @@
 //  Moodist
 //
 //  Builds and parses shareable mix links that match the web app's format:
-//  `https://moodist.tpk.pw/?share=<url-encoded {id: volume}>`.
+//  `https://moodist.toepper.rocks/?share=<url-encoded {id: volume}>`.
 //
 //  Opening such a link on a device with the app installed deep-links straight into
 //  the app (via Universal Links / the Associated Domains entitlement). On any other
@@ -14,7 +14,7 @@ import Foundation
 
 enum MixShare {
     /// The public site that also renders shared mixes when the app isn't installed.
-    static let host = "moodist.tpk.pw"
+    static let host = "moodist.toepper.rocks"
 
     /// A share link for the given `{soundID: volume}` map, or `nil` if the mix is empty.
     static func url(for volumes: [String: Double]) -> URL? {
