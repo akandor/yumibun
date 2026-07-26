@@ -12,11 +12,17 @@ struct MoodistApp: App {
     var body: some Scene {
         WindowGroup {
             RootView()
+            #if os(macOS)
+                // Keep the window from being dragged down to a size where the sidebar,
+                // grid and player bar collapse into each other.
+                .frame(minWidth: 840, minHeight: 560)
+            #endif
         }
         #if os(macOS)
         // A roomy default so the sidebar, sound grid and player all breathe; the
         // window stays freely resizable from there.
         .defaultSize(width: 1100, height: 780)
+        .windowResizability(.contentMinSize)
         #endif
     }
 }

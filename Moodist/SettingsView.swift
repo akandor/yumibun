@@ -154,6 +154,9 @@ struct SettingsView: View {
                     .accessibilityLabel(alarm.isPreviewing ? "Stop alarm preview" : "Preview alarm")
                 }
 
+#if os(iOS)
+                // Vibration is an iPhone capability; Macs can't vibrate, so the row is
+                // hidden there rather than offering a switch that does nothing.
                 Divider().overlay(Theme.stroke)
 
                 SettingsToggle(
@@ -162,6 +165,7 @@ struct SettingsView: View {
                     icon: alarm.vibrationEnabled ? "iphone.gen3.radiowaves.left.and.right" : "iphone.gen3.slash",
                     isOn: $alarm.vibrationEnabled
                 )
+#endif
             }
         }
     }
@@ -213,7 +217,7 @@ struct SettingsView: View {
             SettingsCard(padding: 4) {
                 VStack(spacing: 0) {
                     LinkRow(
-                        title: "moodist.tpk.pw",
+                        title: "moodist.mvze.net",
                         icon: .symbol("globe"),
                         url: About.websiteURL
                     )
@@ -252,7 +256,7 @@ private var aboutTeopperSection: some View {
                 Divider().overlay(Theme.stroke)
 
                 LinkRow(
-                    title: "akandor/moodist_ios",
+                    title: "akandor/moodist_app",
                     icon: .asset("github"),
                     url: About.repositoryToepperURL
                 )
@@ -324,14 +328,14 @@ private var licenseSection: some View {
 // MARK: - About metadata
 
 enum About {
-    static let websiteURL = URL(string: "https://moodist.tpk.pw")!
+    static let websiteURL = URL(string: "https://moodist.mvze.net/")!
     static let repositoryURL = URL(string: "https://github.com/remvze/moodist")!
     
     static let websiteToepperURL = URL(string: "https://toepper.rocks")!
-    static let repositoryToepperURL = URL(string: "https://github.com/akandor/moodist_ios")!
+    static let repositoryToepperURL = URL(string: "https://github.com/akandor/moodist_app")!
     
     static let moodistLicenseURL = URL(string: "https://github.com/remvze/moodist/blob/main/LICENSE")!
-    static let moodistiOSLicenseURL = URL(string: "https://github.com/akandor/moodist_ios/blob/main/LICENSE")!
+    static let moodistiOSLicenseURL = URL(string: "https://github.com/akandor/moodist_app/blob/main/LICENSE")!
     static let pixabayLicenseURL = URL(string: "https://pixabay.com/service/license-summary/")!
     static let cc0LicenseURL = URL(string: "https://creativecommons.org/publicdomain/zero/1.0/")!
 

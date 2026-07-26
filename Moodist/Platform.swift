@@ -42,13 +42,16 @@ extension View {
         #endif
     }
 
-    /// The wheel picker on iOS; the menu picker on macOS, which has no wheel style.
+    /// Insets a plain `List` row from the window edges on macOS, where rows otherwise
+    /// span nearly edge-to-edge. `contentMargins` doesn't affect row width for a plain
+    /// list, so the padding has to live on the row itself. A no-op on iOS, which keeps
+    /// its standard row insets.
     @ViewBuilder
-    func wheelPicker() -> some View {
-        #if os(iOS)
-        self.pickerStyle(.wheel)
+    func rowHorizontalInsets(_ horizontal: CGFloat = 28) -> some View {
+        #if os(macOS)
+        self.listRowInsets(EdgeInsets(top: 6, leading: horizontal, bottom: 6, trailing: horizontal))
         #else
-        self.pickerStyle(.menu)
+        self
         #endif
     }
 

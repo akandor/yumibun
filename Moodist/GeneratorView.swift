@@ -46,21 +46,18 @@ struct GeneratorView: View {
                         )
                         .listRowBackground(Color.clear)
                         .listRowSeparatorTint(Theme.stroke)
+                        .rowHorizontalInsets()
 
                         ForEach(GeneratorPreset.presets) { preset in
                             GeneratorRow(preset: preset, type: type)
                                 .listRowBackground(Color.clear)
                                 .listRowSeparatorTint(Theme.stroke)
+                                .rowHorizontalInsets()
                         }
                     }
                 }
                 .listStyle(.plain)
                 .scrollContentBackground(.hidden)
-#if os(macOS)
-                // A plain List sits flush to the window edges on macOS; inset its
-                // content to match the padded layouts elsewhere in the app.
-                .contentMargins(.horizontal, 20, for: .scrollContent)
-#endif
             }
             .navigationTitle("Neuro Sounds")
             .playerDock()
@@ -160,14 +157,18 @@ struct GeneratorPreset: Identifiable {
 
     var isCustom: Bool { frequency == nil }
 
+    /// The display name, translated via the in-app language (like `SoundCatalog`). The
+    /// stored `name`/`state` are the English source strings that double as catalog keys.
+    var localizedName: String { LanguageSettings.localized(name) }
+
     func subtitle(for type: GeneratorType) -> String {
         guard let frequency else {
-            return "Set your own frequencies"
+            return LanguageSettings.localized("Set your own frequencies")
         }
         let hz = frequency.truncatingRemainder(dividingBy: 1) == 0
             ? String(Int(frequency))
             : String(frequency)
-        return "\(state) · \(hz) Hz"
+        return "\(LanguageSettings.localized(state)) · \(hz) Hz"
     }
 
     static let presets: [GeneratorPreset] = [
@@ -205,7 +206,7 @@ private struct GeneratorRow: View {
                             .background(Theme.surface, in: RoundedRectangle(cornerRadius: 12))
 
                         VStack(alignment: .leading, spacing: 3) {
-                            Text(preset.name)
+                            Text(preset.localizedName)
                                 .font(.system(size: 16, weight: .semibold))
                                 .foregroundStyle(Theme.textPrimary)
                                 .lineLimit(1)
@@ -227,7 +228,7 @@ private struct GeneratorRow: View {
                         .foregroundStyle(Theme.accent)
                 }
                 .buttonStyle(.plain)
-                .accessibilityLabel(isPlaying ? "Stop \(preset.name)" : "Play \(preset.name)")
+                .accessibilityLabel(isPlaying ? "Stop \(preset.localizedName)" : "Play \(preset.localizedName)")
             }
 
             // Per-row volume.
@@ -271,34 +272,18 @@ struct GeneratorSheet: View {
         NavigationStack {
             VStack(spacing: 24) {
 
-                VStack(spacing: 8) {
-                    Text("Custom")
-                        .font(.title2.bold())
-
-                    Text(type.title)
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                        .multilineTextAlignment(.center)
-                }
-                .padding(.top)
+                SheetHeader(title: "Custom", subtitle: LocalizedStringKey(type.title))
+                    .padding(.top)
 
                 VStack(spacing: 16) {
                     LabeledField(title: "Base Frequency (Hz)", text: $frequency1)
-                    LabeledField(title: type.beatLabel, text: $frequency2)
+                    LabeledField(title: LocalizedStringKey(type.beatLabel), text: $frequency2)
                 }
 
-                Button {
+                SheetActionButton(title: "Done") {
                     storeCustom()
                     dismiss()
-                } label: {
-                    Text("Done")
-                        .frame(maxWidth: .infinity)
-                        .foregroundStyle(Theme.background)
-                        .padding(.vertical, 18)
-                        .background(Theme.textPrimary)
-                        .clipShape(RoundedRectangle(cornerRadius: 99))
                 }
-                .controlSize(.large)
             }
             .sheetContentPadding(iPad: isPad)
             .inlineNavigationTitle()
@@ -307,6 +292,8 @@ struct GeneratorSheet: View {
             .onChange(of: frequency1) { _, _ in applyEdit() }
             .onChange(of: frequency2) { _, _ in applyEdit() }
         }
+        .sheetCloseButton()
+        .glassSheetBackground()
         .presentationDetents(
             isPad ? [.height(420)] : [.medium]
         )
@@ -325,7 +312,7 @@ struct GeneratorSheet: View {
 }
 
 private struct LabeledField: View {
-    let title: String
+    let title: LocalizedStringKey
     @Binding var text: String
 
     var body: some View {

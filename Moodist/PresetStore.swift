@@ -61,6 +61,33 @@ final class PresetStore: ObservableObject {
         persist()
     }
 
+    /// Nudges a preset one place towards the top. macOS lists have no drag-to-reorder
+    /// affordance in this layout, so the context menu drives ordering there.
+    func moveUp(_ preset: Preset) {
+        guard let i = presets.firstIndex(where: { $0.id == preset.id }), i > 0 else { return }
+        presets.move(fromOffsets: IndexSet(integer: i), toOffset: i - 1)
+        persist()
+    }
+
+    /// Nudges a preset one place towards the bottom.
+    func moveDown(_ preset: Preset) {
+        guard let i = presets.firstIndex(where: { $0.id == preset.id }), i < presets.count - 1 else { return }
+        // `move`'s destination is the index to insert *before*, so i+2 lands it after
+        // its current successor.
+        presets.move(fromOffsets: IndexSet(integer: i), toOffset: i + 2)
+        persist()
+    }
+
+    /// Whether the preset has somewhere to go, so the menu can disable dead-end items.
+    func canMoveUp(_ preset: Preset) -> Bool {
+        (presets.firstIndex(where: { $0.id == preset.id }) ?? 0) > 0
+    }
+
+    func canMoveDown(_ preset: Preset) -> Bool {
+        guard let i = presets.firstIndex(where: { $0.id == preset.id }) else { return false }
+        return i < presets.count - 1
+    }
+
     func rename(_ preset: Preset, to name: String) {
         guard let index = presets.firstIndex(where: { $0.id == preset.id }) else { return }
         presets[index].name = name

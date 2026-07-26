@@ -115,6 +115,11 @@ private struct AppRoot: View {
             }
         }
         .tabViewStyle(.sidebarAdaptable)
+#if os(macOS)
+        // The sidebar-adaptable TabView opens its sidebar quite narrow; widen it once
+        // on first layout. The user can still drag it to any width afterwards.
+        .background(SidebarWidthSetter(width: 230))
+#endif
         // A tapped Universal Link (moodist.tpk.pw/?share=...) arrives here; on devices
         // without the app the same link just opens the website instead.
         .onContinueUserActivity(NSUserActivityTypeBrowsingWeb) { activity in
@@ -195,6 +200,73 @@ private struct AppRoot: View {
         return "Someone shared a mix with you:\n\(list).\n\nLoad it and replace your current selection?"
     }
 }
+
+// MARK: - Sidebar width (macOS)
+
+#if os(macOS)
+import AppKit
+
+/// Widens the `.sidebarAdaptable` TabView's sidebar, which SwiftUI exposes no API for.
+/// The sidebar is a split-item managed by an `NSSplitViewController`, so the supported
+/// lever is its `minimumThickness` — this both sets the opening width (the sidebar
+/// starts at its minimum) and stops the labels from truncating. Note the divider can't
+/// be dragged narrower than this; that's the trade-off for a controller-managed split.
+private struct SidebarWidthSetter: NSViewRepresentable {
+    var width: CGFloat = 220
+
+    func makeNSView(context: Context) -> NSView {
+        let view = NSView(frame: .zero)
+        attempt(from: view, tries: 15)
+        return view
+    }
+
+    func updateNSView(_ nsView: NSView, context: Context) {}
+
+    private func attempt(from view: NSView, tries: Int) {
+        // A real delay (not just a runloop hop): the split view is built a few frames
+        // after this representable first mounts.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            guard let sidebar = view.window?.sidebarSplitItem else {
+                if tries > 0 { attempt(from: view, tries: tries - 1) }
+                return
+            }
+            sidebar.minimumThickness = width
+        }
+    }
+}
+
+private extension NSWindow {
+    /// The first split item of the window's split-view controller — the sidebar.
+    var sidebarSplitItem: NSSplitViewItem? {
+        // The controller is the managed split view's delegate; fall back to a search.
+        let controller = (contentView?.firstSplitView?.delegate as? NSSplitViewController)
+            ?? contentViewController?.firstDescendant()
+        return controller?.splitViewItems.first
+    }
+}
+
+private extension NSView {
+    /// Depth-first search of the view tree for the first `NSSplitView`.
+    var firstSplitView: NSSplitView? {
+        if let split = self as? NSSplitView { return split }
+        for sub in subviews {
+            if let found = sub.firstSplitView { return found }
+        }
+        return nil
+    }
+}
+
+private extension NSViewController {
+    /// Depth-first search of the view-controller tree for the first controller of type `T`.
+    func firstDescendant<T: NSViewController>() -> T? {
+        if let match = self as? T { return match }
+        for child in children {
+            if let found: T = child.firstDescendant() { return found }
+        }
+        return nil
+    }
+}
+#endif
 
 // MARK: - Saving a mix
 

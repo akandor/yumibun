@@ -7,6 +7,14 @@
 
 import SwiftUI
 
+// Matches `rowHorizontalInsets()`: the list rows sit 28pt in on macOS and keep the
+// standard 16pt on iOS/iPad, so the "Play All" pill above them follows suit.
+#if os(macOS)
+private let presetPillInset: CGFloat = 28
+#else
+private let presetPillInset: CGFloat = 16
+#endif
+
 struct PresetsView: View {
     @EnvironmentObject private var mixer: SoundMixer
     @EnvironmentObject private var presets: PresetStore
@@ -33,9 +41,13 @@ struct PresetsView: View {
                     VStack(spacing: 0) {
                         PlayAllButton {
                             mixer.playQueue(presets.presets)
-                            dismiss()
+                            // On macOS this view is a persistent sidebar tab, not a
+                            // sheet — calling dismiss() there would close the whole
+                            // window. Only dismiss where it's actually presented.
+                            dismissIfPresented()
                         }
-                        .padding(.horizontal, 16)
+                        // Align the pill with the list rows, which sit further in on macOS.
+                        .padding(.horizontal, presetPillInset)
                         .padding(.top, 8)
                         .padding(.bottom, 12)
 
@@ -45,23 +57,24 @@ struct PresetsView: View {
                                     preset: preset,
                                     onPlay: {
                                         mixer.restore(preset)
-                                        dismiss()
+                                        dismissIfPresented()
                                     },
-                                    onRename: { beginRename(preset) }
+                                    onRename: { beginRename(preset) },
+                                    onDelete: { presets.remove(preset) },
+                                    onMoveUp: { presets.moveUp(preset) },
+                                    onMoveDown: { presets.moveDown(preset) },
+                                    canMoveUp: presets.canMoveUp(preset),
+                                    canMoveDown: presets.canMoveDown(preset)
                                 )
                                 .listRowBackground(Color.clear)
                                 .listRowSeparatorTint(Theme.stroke)
+                                .rowHorizontalInsets()
                             }
                             .onDelete { presets.remove(atOffsets: $0) }
                             .onMove { presets.move(fromOffsets: $0, toOffset: $1) }
                         }
                         .listStyle(.plain)
                         .scrollContentBackground(.hidden)
-#if os(macOS)
-                        // A plain List sits flush to the window edges on macOS; inset
-                        // its content to match the padded layouts elsewhere in the app.
-                        .contentMargins(.horizontal, 20, for: .scrollContent)
-#endif
                     }
                 }
             }
@@ -89,6 +102,14 @@ struct PresetsView: View {
             }
             .playerDock()
         }
+    }
+
+    /// Dismisses only on iOS, where Presets can be presented modally. On macOS it's a
+    /// sidebar tab with no presenter, so `dismiss()` would close the window instead.
+    private func dismissIfPresented() {
+        #if os(iOS)
+        dismiss()
+        #endif
     }
 
     private var renamePresented: Binding<Bool> {
@@ -136,17 +157,40 @@ private struct PresetRow: View {
     let preset: Preset
     let onPlay: () -> Void
     let onRename: () -> Void
+    let onDelete: () -> Void
+    var onMoveUp: () -> Void = {}
+    var onMoveDown: () -> Void = {}
+    var canMoveUp: Bool = false
+    var canMoveDown: Bool = false
 
     #if os(iOS)
     @Environment(\.editMode) private var editMode
     private var isEditing: Bool { editMode?.wrappedValue.isEditing ?? false }
     #else
-    // macOS lists have no edit mode; rows always show the play button and
-    // reordering/deletion happens through the List's built-in drag and swipe.
+    // macOS lists have no edit mode; rows always show the play button, and rename /
+    // delete / reorder live in a right-click context menu (there's no swipe or
+    // drag-to-reorder in this layout on macOS).
     private var isEditing: Bool { false }
     #endif
 
     var body: some View {
+        rowContent
+#if os(macOS)
+            .contextMenu {
+                Button("Play") { onPlay() }
+                Button("Rename") { onRename() }
+                Divider()
+                Button("Move Up") { onMoveUp() }
+                    .disabled(!canMoveUp)
+                Button("Move Down") { onMoveDown() }
+                    .disabled(!canMoveDown)
+                Divider()
+                Button("Delete", role: .destructive) { onDelete() }
+            }
+#endif
+    }
+
+    private var rowContent: some View {
         HStack(spacing: 12) {
             ArtworkThumbnail(name: preset.artworkName, size: 54)
 
