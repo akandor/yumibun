@@ -1,0 +1,16 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["UE57845B3R.com.toepper.rocks.Moodist"],
+        "components": [
+          {
+            "/": "/",
+            "?": { "share": "?*" },
+            "comment": "Only shared-mix links (/?share=...) open the app; every other page stays on the website."
+          }
+        ]
+      }
+    ]
+  }
+}
