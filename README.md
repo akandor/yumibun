@@ -4,7 +4,7 @@
   <p>Based on the Open-Source project from Maze</p>
   <a href="https://moodist.mvze.net">Visit <strong>Moodist</strong></a> | <a href="https://buymeacoffee.com/remvze">Buy Him a Coffee</a>
   <br/><br/>
-  [![App Store](https://img.shields.io/badge/App%20Store-Download-blue?logo=apple)](https://apps.apple.com/app/6791589939)
+  <a href="https://apps.apple.com/app/6791589939"><img src="https://img.shields.io/badge/App%20Store-Download-blue?logo=apple" alt="Download on the App Store" /></a>
 </div>
 
 ---
@@ -17,7 +17,7 @@
 - Presets to save, rename, delete, and instantly reapply mixes.
 - Built-in binaural beat and isochronic tone generators.
 - Built-in Pomodoro, countdown, and sleep timer.
-- Languages: English, German, Spanish, French, Italian, Chinese, Japanes, Korean, Portuguese
+- Languages: English, German, Spanish, French, Italian, Chinese, Japanese, Korean, Portuguese
 
 ## Support Moodist
 
