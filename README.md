@@ -1,10 +1,10 @@
 <div align="center">
-  <h2>Moodist App 🌲</h2>
+  <h2>Yumibun</h2>
   <p>Ambient sounds for focus and calm for iOS and macOS.</p>
-  <p>Based on the Open-Source project from Maze</p>
+  <p>Based on the Open-Source project Moodist</p>
   <a href="https://moodist.mvze.net">Visit <strong>Moodist</strong></a> | <a href="https://buymeacoffee.com/remvze">Buy Him a Coffee</a>
   <br/><br/>
-  <a href="https://apps.apple.com/app/6791589939"><img src="https://img.shields.io/badge/App%20Store-Download-blue?logo=apple" alt="Download on the App Store" /></a>
+  <a href="https://apps.apple.com/app/6795160883"><img src="https://img.shields.io/badge/App%20Store-Download-blue?logo=apple" alt="Download on the App Store" /></a>
 </div>
 
 ---

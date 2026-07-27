@@ -1,0 +1,122 @@
+{
+  "fill" : {
+    "automatic-gradient" : "extended-gray:0.25000,1.00000"
+  },
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "fill-specializations" : [
+            {
+              "value" : {
+                "automatic-gradient" : "extended-gray:0.75000,1.00000"
+              }
+            },
+            {
+              "appearance" : "dark",
+              "value" : {
+                "automatic-gradient" : "extended-gray:0.50000,1.00000"
+              }
+            }
+          ],
+          "glass" : false,
+          "hidden" : true,
+          "image-name" : "logo.svg",
+          "name" : "logo",
+          "position" : {
+            "scale" : 3.5,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    },
+    {
+      "layers" : [
+        {
+          "fill" : {
+            "automatic-gradient" : "srgb:0.65568,0.65568,0.65568,1.00000"
+          },
+          "glass" : false,
+          "hidden" : true,
+          "image-name" : "Curves.svg",
+          "name" : "Curves",
+          "position" : {
+            "scale" : 1.4,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    },
+    {
+      "layers" : [
+        {
+          "fill-specializations" : [
+            {
+              "value" : {
+                "automatic-gradient" : "extended-gray:0.50000,1.00000"
+              }
+            },
+            {
+              "appearance" : "dark",
+              "value" : {
+                "automatic-gradient" : "extended-gray:0.50000,1.00000"
+              }
+            },
+            {
+              "appearance" : "tinted",
+              "value" : {
+                "automatic-gradient" : "extended-srgb:0.00000,0.53333,1.00000,1.00000"
+              }
+            }
+          ],
+          "glass" : false,
+          "image-name" : "dreamstime.svg",
+          "name" : "dreamstime",
+          "position" : {
+            "scale" : 27,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : "shared"
+  }
+}
