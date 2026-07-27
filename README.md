@@ -13,9 +13,7 @@
 ## Screenshots
 
 <div align="center">
-  <img src="resources/yumibun%20iPhone.jpg" alt="Yumibun on iPhone" width="30%" />
-  <img src="resources/yumibun%20iPad.jpg" alt="Yumibun on iPad" width="30%" />
-  <img src="resources/yumibun%20macOS.jpg" alt="Yumibun on macOS" width="30%" />
+  <img src="resources/yumibun%20iPad.jpg" alt="Yumibun on iPad" width="80%" />
 </div>
 
 ## Features
