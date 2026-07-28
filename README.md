@@ -5,7 +5,7 @@
   <p>Based on the Open-Source project Moodist</p>
   <a href="https://moodist.mvze.net">Visit <strong>Moodist</strong></a> | <a href="https://buymeacoffee.com/remvze">Buy Him a Coffee</a> | <a href="https://buymeacoffee.com/toepper.rocks">Buy Me a Coffee</a>
   <br/><br/>
-  <a href="https://apps.apple.com/app/6795160883"><img src="https://img.shields.io/badge/App%20Store-Download-blue?logo=apple" alt="Download on the App Store" /></a>
+  <a href="https://apps.apple.com/app/id6795160883"><img src="https://img.shields.io/badge/App%20Store-Download-blue?logo=apple" alt="Download on the App Store" /></a>
   <br><br/>
   <p>The Android version is available through closed testing. Please join the Google group to get access to the android app.</p>
   <a href="https://groups.google.com/g/yumibun">Join Google Group</a>
