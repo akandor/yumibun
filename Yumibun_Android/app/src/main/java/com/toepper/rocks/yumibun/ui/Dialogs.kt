@@ -3,30 +3,43 @@ package com.toepper.rocks.yumibun.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.toepper.rocks.yumibun.AppViewModel
 import com.toepper.rocks.yumibun.data.Loc
 import com.toepper.rocks.yumibun.ui.theme.Theme
+import kotlin.math.abs
 
 /** The timer the player menu asked to configure. */
 enum class TimerPick(val title: String, val subtitle: String) {
@@ -35,35 +48,16 @@ enum class TimerPick(val title: String, val subtitle: String) {
     Pomodoro("Pomodoro", "Focus, then a chime."),
 }
 
-private data class DurationOption(val label: String, val seconds: Int)
-
-private fun optionsFor(pick: TimerPick): List<DurationOption> = when (pick) {
-    TimerPick.Sleep -> listOf(
-        DurationOption("15 min", 15 * 60),
-        DurationOption("30 min", 30 * 60),
-        DurationOption("45 min", 45 * 60),
-        DurationOption("1 hour", 60 * 60),
-        DurationOption("1.5 hours", 90 * 60),
-    )
-    TimerPick.Countdown -> listOf(
-        DurationOption("1 min", 60),
-        DurationOption("5 min", 5 * 60),
-        DurationOption("10 min", 10 * 60),
-        DurationOption("15 min", 15 * 60),
-        DurationOption("20 min", 20 * 60),
-        DurationOption("30 min", 30 * 60),
-    )
-    TimerPick.Pomodoro -> listOf(
-        DurationOption("Pomodoro · 25 min", 25 * 60),
-        DurationOption("Break · 5 min", 5 * 60),
-        DurationOption("Long Break · 15 min", 15 * 60),
-    )
-}
-
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun TimerDialog(vm: AppViewModel, pick: TimerPick, onDismiss: () -> Unit) {
     val colors = Theme.colors
+
+    var hours by remember { mutableIntStateOf(0) }
+    var minutes by remember { mutableIntStateOf(if (pick == TimerPick.Sleep) 30 else if (pick == TimerPick.Pomodoro) 25 else 0) }
+    var seconds by remember { mutableIntStateOf(0) }
+
+    val totalSeconds = hours * 3600 + minutes * 60 + (if (pick == TimerPick.Countdown) seconds else 0)
+
     AlertDialog(
         onDismissRequest = onDismiss,
         containerColor = colors.surface,
@@ -71,38 +65,169 @@ fun TimerDialog(vm: AppViewModel, pick: TimerPick, onDismiss: () -> Unit) {
         text = {
             Column {
                 Text(Loc.get(pick.subtitle), color = colors.textSecondary, fontSize = 13.sp)
-                FlowRow(
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    verticalArrangement = Arrangement.spacedBy(10.dp),
-                    modifier = Modifier.padding(top = 16.dp),
+
+                if (pick == TimerPick.Pomodoro) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 16.dp),
+                    ) {
+                        PomodoroChip("Pomodoro", isSelected = hours == 0 && minutes == 25, modifier = Modifier.weight(1f)) {
+                            hours = 0; minutes = 25
+                        }
+                        PomodoroChip("Break", isSelected = hours == 0 && minutes == 5, modifier = Modifier.weight(1f)) {
+                            hours = 0; minutes = 5
+                        }
+                        PomodoroChip("Long Break", isSelected = hours == 0 && minutes == 15, modifier = Modifier.weight(1f)) {
+                            hours = 0; minutes = 15
+                        }
+                    }
+                }
+
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp),
                 ) {
-                    optionsFor(pick).forEach { option ->
-                        Text(
-                            text = option.label,
-                            color = colors.textPrimary,
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Medium,
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(50))
-                                .background(colors.surfaceRaised)
-                                .border(1.dp, colors.stroke, RoundedCornerShape(50))
-                                .clickable {
-                                    when (pick) {
-                                        TimerPick.Sleep -> vm.startSleepTimer(option.seconds)
-                                        TimerPick.Countdown -> vm.startCountdownTimer(option.seconds)
-                                        TimerPick.Pomodoro -> vm.startPomodoro(option.seconds)
-                                    }
-                                    onDismiss()
-                                }
-                                .padding(horizontal = 16.dp, vertical = 10.dp),
-                        )
+                    WheelPicker(range = 0..23, suffix = "h", selected = hours, onSelected = { hours = it })
+                    WheelPicker(range = 0..59, suffix = "m", selected = minutes, onSelected = { minutes = it })
+                    if (pick == TimerPick.Countdown) {
+                        WheelPicker(range = 0..59, suffix = "s", selected = seconds, onSelected = { seconds = it })
                     }
                 }
             }
         },
-        confirmButton = {},
+        confirmButton = {
+            TextButton(
+                enabled = totalSeconds > 0,
+                onClick = {
+                    when (pick) {
+                        TimerPick.Sleep -> vm.startSleepTimer(totalSeconds)
+                        TimerPick.Countdown -> vm.startCountdownTimer(totalSeconds)
+                        TimerPick.Pomodoro -> vm.startPomodoro(totalSeconds)
+                    }
+                    onDismiss()
+                },
+            ) {
+                Text(
+                    Loc.get("Start"),
+                    color = if (totalSeconds > 0) colors.accent else colors.textTertiary,
+                    fontWeight = FontWeight.SemiBold,
+                )
+            }
+        },
         dismissButton = { TextButton(onClick = onDismiss) { Text(Loc.get("Cancel"), color = colors.textSecondary) } },
     )
+}
+
+@Composable
+private fun PomodoroChip(label: String, isSelected: Boolean, modifier: Modifier = Modifier, onClick: () -> Unit) {
+    val colors = Theme.colors
+    Text(
+        text = Loc.get(label),
+        color = colors.textPrimary,
+        fontSize = 13.sp,
+        fontWeight = FontWeight.SemiBold,
+        maxLines = 1,
+        textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+        modifier = modifier
+            .clip(RoundedCornerShape(16.dp))
+            .background(if (isSelected) colors.surfaceRaised else colors.surface)
+            .border(
+                1.dp,
+                if (isSelected) colors.accent.copy(alpha = 0.45f) else colors.stroke,
+                RoundedCornerShape(16.dp),
+            )
+            .clickable(onClick = onClick)
+            .padding(vertical = 12.dp),
+    )
+}
+
+/**
+ * A scrollable wheel-style number picker that mirrors the iOS `.wheel` pickers in the
+ * timer sheets. Numbers snap to the center; the centered value is reported via [onSelected].
+ */
+@Composable
+private fun WheelPicker(
+    range: IntRange,
+    suffix: String,
+    selected: Int,
+    onSelected: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+    visibleCount: Int = 5,
+    itemHeight: Dp = 34.dp,
+) {
+    val colors = Theme.colors
+    val values = remember(range) { range.toList() }
+    val listState = rememberLazyListState(
+        initialFirstVisibleItemIndex = (selected - range.first).coerceIn(0, values.lastIndex),
+    )
+    val flingBehavior = rememberSnapFlingBehavior(lazyListState = listState)
+    val sidePadding = itemHeight * (visibleCount / 2)
+
+    val centerIndex by remember {
+        derivedStateOf {
+            val info = listState.layoutInfo
+            val viewportCenter = (info.viewportStartOffset + info.viewportEndOffset) / 2f
+            info.visibleItemsInfo.minByOrNull { abs((it.offset + it.size / 2f) - viewportCenter) }
+                ?.index ?: 0
+        }
+    }
+
+    // Report the centered value only once scrolling settles, so an animated jump to a
+    // preset (chip tap) doesn't spray intermediate values back into the parent.
+    LaunchedEffect(listState.isScrollInProgress) {
+        if (!listState.isScrollInProgress) {
+            values.getOrNull(centerIndex)?.let { if (it != selected) onSelected(it) }
+        }
+    }
+
+    // Follow external changes to `selected` (e.g. a Pomodoro chip) by scrolling the wheel.
+    LaunchedEffect(selected) {
+        if (!listState.isScrollInProgress && values.getOrNull(centerIndex) != selected) {
+            listState.animateScrollToItem((selected - range.first).coerceIn(0, values.lastIndex))
+        }
+    }
+
+    Box(
+        modifier = modifier.width(70.dp),
+        contentAlignment = Alignment.Center,
+    ) {
+        // Center band that highlights the selected row.
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(itemHeight)
+                .clip(RoundedCornerShape(8.dp))
+                .background(colors.surfaceRaised.copy(alpha = 0.5f)),
+        )
+        LazyColumn(
+            state = listState,
+            flingBehavior = flingBehavior,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            contentPadding = PaddingValues(vertical = sidePadding),
+            modifier = Modifier.height(itemHeight * visibleCount),
+        ) {
+            itemsIndexed(values) { index, value ->
+                val isSelected = index == centerIndex
+                Box(
+                    modifier = Modifier
+                        .height(itemHeight)
+                        .fillMaxWidth(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(
+                        text = "$value $suffix",
+                        color = if (isSelected) colors.textPrimary else colors.textTertiary,
+                        fontSize = if (isSelected) 19.sp else 15.sp,
+                        fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Normal,
+                    )
+                }
+            }
+        }
+    }
 }
 
 @Composable
