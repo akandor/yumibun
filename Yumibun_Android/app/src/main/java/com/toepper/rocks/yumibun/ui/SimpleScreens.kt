@@ -67,7 +67,7 @@ fun ScreenTitle(text: String) {
 }
 
 @Composable
-fun FavoritesScreen(vm: AppViewModel, topPadding: Dp, bottomPadding: Dp) {
+fun FavoritesScreen(vm: AppViewModel, topPadding: Dp, bottomPadding: Dp, columns: Int = 2) {
     val colors = Theme.colors
     val favorites = vm.favoriteSounds
 
@@ -90,12 +90,12 @@ fun FavoritesScreen(vm: AppViewModel, topPadding: Dp, bottomPadding: Dp) {
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 modifier = Modifier.padding(horizontal = 20.dp),
             ) {
-                favorites.chunked(2).forEach { row ->
+                favorites.chunked(columns).forEach { row ->
                     Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                         row.forEach { sound ->
                             SoundCard(sound = sound, vm = vm, modifier = Modifier.weight(1f))
                         }
-                        if (row.size == 1) Spacer(Modifier.weight(1f))
+                        repeat(columns - row.size) { Spacer(Modifier.weight(1f)) }
                     }
                 }
             }

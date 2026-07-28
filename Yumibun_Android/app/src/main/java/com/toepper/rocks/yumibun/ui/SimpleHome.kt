@@ -47,6 +47,7 @@ fun SimpleHomeScreen(
     onSelectCategory: (String) -> Unit,
     topPadding: Dp,
     bottomPadding: Dp,
+    columns: Int = 2,
 ) {
     val colors = Theme.colors
     val category = SoundCatalog.category(selectedCategoryId) ?: SoundCatalog.categories.first()
@@ -111,12 +112,12 @@ fun SimpleHomeScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp),
             modifier = Modifier.padding(horizontal = 20.dp),
         ) {
-            category.sounds.chunked(2).forEach { row ->
+            category.sounds.chunked(columns).forEach { row ->
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     row.forEach { sound ->
                         SoundCard(sound = sound, vm = vm, modifier = Modifier.weight(1f))
                     }
-                    if (row.size == 1) Spacer(Modifier.weight(1f))
+                    repeat(columns - row.size) { Spacer(Modifier.weight(1f)) }
                 }
             }
         }

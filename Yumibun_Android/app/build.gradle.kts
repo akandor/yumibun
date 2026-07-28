@@ -15,7 +15,7 @@ android {
         applicationId = "com.toepper.rocks.yumibun"
         minSdk = 35
         targetSdk = 36
-        versionCode = 62
+        versionCode = 64
         versionName = "1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
