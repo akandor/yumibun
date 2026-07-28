@@ -1,11 +1,14 @@
 <div align="center">
   <h2>Yumibun</h2>
-  <p>Focus, relax & sleep for iOS and macOS.</p>
+  <p>Focus, relax & sleep for iOS, macOS and Android.</p>
   <p>Yume (夢, dream) + Kibun (気分, mood) → Yumibun</p>
   <p>Based on the Open-Source project Moodist</p>
   <a href="https://moodist.mvze.net">Visit <strong>Moodist</strong></a> | <a href="https://buymeacoffee.com/remvze">Buy Him a Coffee</a> | <a href="https://buymeacoffee.com/toepper.rocks">Buy Me a Coffee</a>
   <br/><br/>
   <a href="https://apps.apple.com/app/6795160883"><img src="https://img.shields.io/badge/App%20Store-Download-blue?logo=apple" alt="Download on the App Store" /></a>
+  <br><br/>
+  <p>The Android version is available through closed testing. Please join the Google group to get access to the android app.</p>
+  <a href="https://groups.google.com/g/yumibun">Join Google Group</a>
 </div>
 
 ---

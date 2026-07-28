@@ -16,6 +16,8 @@ struct SettingsView: View {
                     VStack(spacing: 28) {
                         logoSection
                         appearanceSection
+                        homeStyleSection
+                        accentSection
 #if os(macOS)
                         // iOS gets a per-app language switch in the system Settings;
                         // macOS has no equivalent, so the app provides its own.
@@ -82,6 +84,97 @@ struct SettingsView: View {
                 .pickerStyle(.segmented)
                 .labelsHidden()
 #endif
+            }
+        }
+    }
+
+    // MARK: - Home style
+
+    private var homeStyleSection: some View {
+        SettingsCard {
+            VStack(alignment: .leading, spacing: 12) {
+                HStack(spacing: 10) {
+                    Image(systemName: appearance.homeStyle.icon)
+                        .font(.system(size: 13))
+                        .foregroundStyle(Theme.textSecondary)
+                        .frame(width: 18)
+                        .contentTransition(.symbolEffect(.replace))
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Home Style")
+                            .font(.system(size: 15, weight: .medium))
+                            .foregroundStyle(Theme.textPrimary)
+                        Text("Modern shows a photo hero; Simple uses the category strip.")
+                            .font(.system(size: 12))
+                            .foregroundStyle(Theme.textTertiary)
+                    }
+
+                    Spacer(minLength: 8)
+
+#if os(macOS)
+                    Picker("Home Style", selection: $appearance.homeStyle) {
+                        ForEach(HomeStyle.allCases) { style in
+                            Text(style.label).tag(style)
+                        }
+                    }
+                    .labelsHidden()
+                    .pickerStyle(.menu)
+                    .fixedSize()
+#endif
+                }
+
+#if !os(macOS)
+                Picker("Home Style", selection: $appearance.homeStyle) {
+                    ForEach(HomeStyle.allCases) { style in
+                        Text(style.label).tag(style)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .labelsHidden()
+#endif
+            }
+        }
+    }
+
+    // MARK: - Accent
+
+    private var accentSection: some View {
+        SettingsCard {
+            VStack(alignment: .leading, spacing: 14) {
+                HStack(spacing: 10) {
+                    Image(systemName: "paintpalette")
+                        .font(.system(size: 13))
+                        .foregroundStyle(Theme.textSecondary)
+                        .frame(width: 18)
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Accent")
+                            .font(.system(size: 15, weight: .medium))
+                            .foregroundStyle(Theme.textPrimary)
+                        Text(appearance.accent.label)
+                            .font(.system(size: 12))
+                            .foregroundStyle(Theme.textTertiary)
+                    }
+
+                    Spacer(minLength: 8)
+                }
+
+                HStack(spacing: 14) {
+                    ForEach(AccentPalette.allCases) { palette in
+                        AccentSwatch(
+                            palette: palette,
+                            isSelected: appearance.accent == palette
+                        ) {
+                            appearance.accent = palette
+                        }
+                    }
+
+                    Spacer(minLength: 0)
+                }
+
+                Text("Restart the app to apply the new accent.")
+                    .font(.system(size: 12))
+                    .foregroundStyle(Theme.textTertiary)
             }
         }
     }
@@ -190,7 +283,7 @@ struct SettingsView: View {
                         .font(.system(size: 28, design: .serif))
                         .foregroundStyle(Theme.textPrimary)
 
-                    Text("Ambient Sounds\nFor Focus and Calm")
+                    Text("Focus, relax & sleep\nYume (夢, dream) + Kibun (気分, mood) → Yumibun")
                         .font(.system(size: 14))
                         .foregroundStyle(Theme.textSecondary)
                         .multilineTextAlignment(.center)
@@ -225,7 +318,7 @@ struct SettingsView: View {
                     Divider().overlay(Theme.stroke)
 
                     LinkRow(
-                        title: "akandor/moodist_app",
+                        title: "akandor/yumibun",
                         icon: .asset("github"),
                         url: About.repositoryToepperURL
                     )
@@ -465,6 +558,36 @@ private struct SettingsToggle: View {
                 .tint(Theme.accent)
                 .accessibilityLabel(title)
         }
+    }
+}
+
+/// A tappable accent color, shown as a filled circle that grows a ring when it's the
+/// selected palette. `Pure` reads as a monochrome swatch (black on light, white on dark).
+private struct AccentSwatch: View {
+    let palette: AccentPalette
+    let isSelected: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Circle()
+                .fill(palette.color)
+                .frame(width: 30, height: 30)
+                .overlay(
+                    Circle().strokeBorder(Theme.stroke, lineWidth: 1)
+                )
+                .overlay(
+                    Circle()
+                        .strokeBorder(Theme.textPrimary, lineWidth: 2)
+                        .padding(-4)
+                        .opacity(isSelected ? 1 : 0)
+                )
+                .animation(.snappy(duration: 0.15), value: isSelected)
+                .contentShape(Circle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(Text(palette.label))
+        .accessibilityAddTraits(isSelected ? [.isSelected] : [])
     }
 }
 

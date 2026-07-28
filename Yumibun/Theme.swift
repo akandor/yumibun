@@ -71,8 +71,21 @@ extension Color {
 /// their counterparts, keeping the same ordering (background behind surface behind
 /// surfaceRaised) so elevation reads the same way in both appearances.
 enum Theme {
-//    static let accent = Color.dynamic(light: Color(hex: 0xA97B10), dark: Color(hex: 0xDEAA22))
-    static let accent = Color.dynamic(light: Color(hex: 0x000000), dark: Color(hex: 0xFFFFFF))
+    /// The accent tint, chosen from `AccentPalette` in Settings and persisted. It's a
+    /// computed property (not a `let`) so every `Theme.accent` call site picks up the
+    /// current choice the next time its view body runs.
+    static var accent: Color { accentPalette.color }
+
+    /// The currently selected palette. Backed by `UserDefaults` so it survives launches
+    /// and can be read statically from anywhere; `AppearanceSettings` writes through it
+    /// and publishes the change so SwiftUI re-renders live.
+    static var accentPalette: AccentPalette {
+        get { AccentPalette(rawValue: UserDefaults.standard.string(forKey: accentKey) ?? "") ?? .peach }
+        set { UserDefaults.standard.set(newValue.rawValue, forKey: accentKey) }
+    }
+
+    static let accentKey = "yumibun.accent"
+
     static let background = Color.dynamic(light: Color(hex: 0xE8E8E3), dark: Color(hex: 0x0C0C0E))
     static let surface = Color.dynamic(light: Color(hex: 0xFBFBF9), dark: Color(hex: 0x161618))
     static let surfaceRaised = Color.dynamic(light: Color(hex: 0xFFFFFF), dark: Color(hex: 0x1E1E21))
@@ -81,4 +94,51 @@ enum Theme {
     static let textSecondary = Color.dynamic(light: Color(hex: 0x66666C), dark: Color(hex: 0x9A9AA0))
     static let textTertiary = Color.dynamic(light: Color(hex: 0x96969C), dark: Color(hex: 0x5E5E63))
     static let danger = Color.dynamic(light: Color(hex: 0xE5484D), dark: Color(hex: 0xE5484D))
+}
+
+/// The accent tints the app can be themed with. Each carries a light/dark pair that
+/// keeps the same character in both appearances. `pure` is the monochrome option —
+/// black on light, white on dark — and is what makes the logo mark fall back to
+/// `textSecondary` rather than an accent hue.
+enum AccentPalette: String, CaseIterable, Identifiable {
+    case pure
+    case lavender
+    case sage
+    case peach
+    case cyan
+
+    var id: String { rawValue }
+
+    var label: LocalizedStringKey {
+        switch self {
+        case .pure: "Pure"
+        case .lavender: "Soft Lavender"
+        case .sage: "Sage Green"
+        case .peach: "Warm Peach"
+        case .cyan: "Misty Cyan"
+        }
+    }
+
+    var color: Color {
+        switch self {
+        case .pure: .dynamic(light: Color(hex: 0x000000), dark: Color(hex: 0xFFFFFF))
+        case .lavender: .dynamic(light: Color(hex: 0x7357D8), dark: Color(hex: 0xB8A7FF))
+        case .sage: .dynamic(light: Color(hex: 0x4F8B69), dark: Color(hex: 0x8EC9A8))
+        case .peach: .dynamic(light: Color(hex: 0xD67B45), dark: Color(hex: 0xF0B78A))
+        case .cyan: .dynamic(light: Color(hex: 0x2E8EA5), dark: Color(hex: 0x7FD6E5))
+        }
+    }
+
+    /// The accent as it should read over a dark surface (e.g. the photo hero), where the
+    /// light-mode variant of `.pure` — black — would vanish. Always the lighter of the
+    /// pair, so it stays legible regardless of the app's appearance.
+    var colorOnDark: Color {
+        switch self {
+        case .pure: Color(hex: 0xFFFFFF)
+        case .lavender: Color(hex: 0xB8A7FF)
+        case .sage: Color(hex: 0x8EC9A8)
+        case .peach: Color(hex: 0xF0B78A)
+        case .cyan: Color(hex: 0x7FD6E5)
+        }
+    }
 }

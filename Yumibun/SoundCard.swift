@@ -15,6 +15,8 @@ struct SoundCard: View {
     @EnvironmentObject private var mixer: SoundMixer
 
     private var isSelected: Bool { mixer.isSelected(sound) }
+    /// The equalizer only animates while the sound is part of a running mix.
+    private var isPlaying: Bool { isSelected && mixer.isPlaying }
 
     var body: some View {
         VStack(spacing: 8) {
@@ -26,11 +28,19 @@ struct SoundCard: View {
                         isSelected ? Theme.accent : Theme.stroke,
                         lineWidth: isSelected ? 1.5 : 1
                     )
-                Image(systemName: sound.symbol)
-                    .font(.system(size: 19, weight: .medium))
-                    .foregroundStyle(isSelected ? Theme.accent : Theme.textSecondary)
+                if isPlaying {
+                    EqualizerWave()
+                        .frame(width: 20, height: 16)
+                        .transition(.scale(scale: 0.6).combined(with: .opacity))
+                } else {
+                    Image(systemName: sound.symbol)
+                        .font(.system(size: 17, weight: .medium))
+                        .foregroundStyle(isSelected ? Theme.accent : Theme.textSecondary)
+                        .transition(.scale(scale: 0.6).combined(with: .opacity))
+                }
             }
-            .frame(width: 56, height: 56)
+            .frame(width: 48, height: 48)
+            .animation(.snappy(duration: 0.22), value: isPlaying)
 
             Text(sound.label)
                 .font(.system(size: 12, weight: .medium))
@@ -90,6 +100,45 @@ private struct FavoriteHeart: View {
         .buttonStyle(.plain)
         .padding(6)
         .accessibilityLabel(isFavorite ? "Remove \(sound.label) from favorites" : "Add \(sound.label) to favorites")
+    }
+}
+
+/// A row of bars that bounce at staggered rates to read as a playing equalizer.
+private struct EqualizerWave: View {
+    /// Relative rest/peak heights per bar, staggered so the bars never move in unison.
+    private let bars: [(min: CGFloat, max: CGFloat, delay: Double)] = [
+        (0.30, 0.80, 0.00),
+        (0.45, 1.00, 0.18),
+        (0.25, 0.70, 0.36),
+        (0.50, 0.95, 0.12),
+    ]
+
+    @State private var animating = false
+
+    var body: some View {
+        GeometryReader { proxy in
+            let spacing = proxy.size.width * 0.14
+            let barWidth = (proxy.size.width - spacing * CGFloat(bars.count - 1)) / CGFloat(bars.count)
+
+            HStack(alignment: .center, spacing: spacing) {
+                ForEach(bars.indices, id: \.self) { index in
+                    Capsule()
+                        .fill(Theme.accent)
+                        .frame(
+                            width: barWidth,
+                            height: proxy.size.height * (animating ? bars[index].max : bars[index].min)
+                        )
+                        .animation(
+                            .easeInOut(duration: 0.42)
+                                .repeatForever(autoreverses: true)
+                                .delay(bars[index].delay),
+                            value: animating
+                        )
+                }
+            }
+            .frame(width: proxy.size.width, height: proxy.size.height)
+        }
+        .onAppear { animating = true }
     }
 }
 

@@ -19,6 +19,9 @@ final class PlayerPresentation: ObservableObject {
 }
 
 struct ContentView: View {
+    // Observed so a change to the accent palette re-runs this body and re-applies the
+    // window `.tint`, propagating the new accent to the tab bar and controls live.
+    @EnvironmentObject private var appearance: AppearanceSettings
     @StateObject private var mixer: SoundMixer
     @StateObject private var presets = PresetStore()
     @StateObject private var favorites = FavoritesStore()
@@ -68,6 +71,7 @@ private struct AppRoot: View {
     @EnvironmentObject private var mixer: SoundMixer
     @EnvironmentObject private var presets: PresetStore
     @EnvironmentObject private var timer: TimerController
+    @EnvironmentObject private var appearance: AppearanceSettings
 
     @State private var selectedTab: AppTab = .home
     @State private var selectedCategoryID = SoundCatalog.categories[0].id
@@ -143,6 +147,39 @@ private struct AppRoot: View {
 
     @ViewBuilder
     private var homeTab: some View {
+        switch appearance.homeStyle {
+        case .modern: modernHome
+        case .simple: simpleHome
+        }
+    }
+
+    /// The photographic hero layout, used on both regular (iPad/macOS) and compact.
+    /// The regular size class already lives inside the TabView's navigation container,
+    /// so it isn't wrapped in another `NavigationStack`; compact provides its own.
+    @ViewBuilder
+    private var modernHome: some View {
+        if horizontalSizeClass == .regular {
+            CategoryHeroBrowser(selectedCategoryID: $selectedCategoryID, category: category)
+                .background(Theme.background)
+#if os(iOS)
+                .toolbar(.hidden, for: .navigationBar)
+#endif
+                .playerDock()
+        } else {
+            NavigationStack {
+                CategoryHeroBrowser(selectedCategoryID: $selectedCategoryID, category: category)
+                    .background(Theme.background)
+#if os(iOS)
+                    .toolbar(.hidden, for: .navigationBar)
+#endif
+                    .playerDock()
+            }
+        }
+    }
+
+    /// The original circular strip + grid layout.
+    @ViewBuilder
+    private var simpleHome: some View {
         if horizontalSizeClass == .regular {
             CategoryBrowser(selectedCategoryID: $selectedCategoryID, category: category)
                 .navigationTitle("Categories")

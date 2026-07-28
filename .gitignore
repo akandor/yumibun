@@ -69,3 +69,12 @@ Tools/
 
 # macOS
 .DS_Store
+
+# macOS build output (custom DerivedData)
+.build-mac/
+
+# Affinity lock files
+*~lock~
+
+# Accidental misspelled duplicate of Yumibun_Android
+Yumbiun_Android/
