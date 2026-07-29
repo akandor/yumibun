@@ -29,6 +29,7 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.PlayCircle
+import androidx.compose.material.icons.filled.QueueMusic
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -47,6 +48,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -82,8 +84,8 @@ fun FavoritesScreen(vm: AppViewModel, topPadding: Dp, bottomPadding: Dp, columns
         if (favorites.isEmpty()) {
             EmptyState(
                 icon = { Icon(Icons.Filled.Favorite, null, tint = colors.textTertiary, modifier = Modifier.size(40.dp)) },
-                title = Loc.get("No favorites yet"),
-                subtitle = Loc.get("Tap the heart on any sound to add it here."),
+                title = Loc.get("No Favorites Yet"),
+                subtitle = Loc.get("Tap the heart on any sound to keep it here."),
             )
         } else {
             Column(
@@ -139,9 +141,9 @@ fun PresetsScreen(vm: AppViewModel, topPadding: Dp, bottomPadding: Dp) {
 
         if (vm.presets.isEmpty()) {
             EmptyState(
-                icon = { Icon(Icons.Filled.PlayArrow, null, tint = colors.textTertiary, modifier = Modifier.size(40.dp)) },
-                title = Loc.get("No presets yet"),
-                subtitle = Loc.get("Build a mix, then save it here to recall later."),
+                icon = { Icon(Icons.Filled.QueueMusic, null, tint = colors.textTertiary, modifier = Modifier.size(40.dp)) },
+                title = Loc.get("No Presets Yet"),
+                subtitle = Loc.get("Pick some sounds, then tap ... in the player and select 'Add to presets' to save the mix as a preset."),
             )
         } else {
             // Play All
@@ -299,7 +301,8 @@ internal fun EmptyState(icon: @Composable () -> Unit, title: String, subtitle: S
             contentAlignment = Alignment.Center,
             modifier = Modifier.size(72.dp).clip(CircleShape).background(colors.surface),
         ) { icon() }
-        Text(title, color = colors.textPrimary, fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
-        Text(subtitle, color = colors.textSecondary, fontSize = 14.sp)
+        Text(title, color = colors.textPrimary, fontSize = 24.sp, fontWeight = FontWeight.SemiBold)
+        Text(subtitle, color = colors.textSecondary, fontSize = 18.sp,
+            textAlign = TextAlign.Center)
     }
 }

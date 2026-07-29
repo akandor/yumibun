@@ -278,8 +278,7 @@ struct WidePlayerBar: View {
                 .foregroundStyle(Theme.textSecondary)
                 .frame(width: 18)
                 .contentTransition(.symbolEffect(.replace))
-            Slider(value: $mixer.masterVolume, in: 0...1)
-                .tint(Theme.accent)
+            MusicSlider(value: $mixer.masterVolume)
                 .accessibilityLabel("Overall volume")
         }
     }

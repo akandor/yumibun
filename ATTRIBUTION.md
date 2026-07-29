@@ -22,7 +22,6 @@ by checksum against the linked source.
 
 | Asset | License | Source |
 |---|---|---|
-| `logo.imageset` | — | The Moodist project's own logo (`moodist-main/public/logo.svg`). |
 | `github.imageset` | CC0-1.0 | [simple-icons](https://github.com/simple-icons/simple-icons) (`icons/github.svg`). The mark itself remains a GitHub trademark; it is used here solely to link to the project's repository. |
 
 ## Audio

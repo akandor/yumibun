@@ -32,8 +32,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -125,20 +123,10 @@ fun SoundCard(
                 modifier = Modifier.height(30.dp),
             )
 
-            Slider(
+            MusicSlider(
                 value = vm.volumeFor(sound),
                 onValueChange = { vm.setVolume(it, sound) },
                 enabled = selected,
-                valueRange = 0f..1f,
-                colors = SliderDefaults.colors(
-                    thumbColor = colors.accent,
-                    activeTrackColor = colors.accent,
-                    inactiveTrackColor = colors.stroke,
-                    disabledThumbColor = colors.accent.copy(alpha = 0.35f),
-                    disabledActiveTrackColor = colors.accent.copy(alpha = 0.25f),
-                    disabledInactiveTrackColor = colors.stroke,
-                ),
-                modifier = Modifier.height(20.dp),
             )
         }
 

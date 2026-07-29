@@ -149,15 +149,12 @@ private struct VolumeSlider: View {
     @EnvironmentObject private var mixer: SoundMixer
 
     var body: some View {
-        Slider(
+        MusicSlider(
             value: Binding(
                 get: { mixer.volume(for: sound) },
                 set: { mixer.setVolume($0, for: sound) }
-            ),
-            in: 0...1
+            )
         )
-        .controlSize(.mini)
-        .tint(Theme.accent)
         .accessibilityLabel("\(sound.label) volume")
     }
 }

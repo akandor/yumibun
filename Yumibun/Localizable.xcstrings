@@ -1,7 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "" : {},
+    "" : {
+
+    },
     "%@ volume" : {
       "localizations" : {
         "de" : {
@@ -114,116 +116,110 @@
     },
     "%lld %@" : {
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld %2$@"
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "new",
             "value" : "%1$lld %2$@"
           }
-        }
-      }
-    },
-    "%lld h" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld h"
-          }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld h"
+            "value" : "%1$lld %2$@"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld h"
+            "value" : "%1$lld %2$@"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld h"
+            "value" : "%1$lld %2$@"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld 時間"
+            "value" : "%1$lld %2$@"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld 시간"
+            "value" : "%1$lld %2$@"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld h"
+            "value" : "%1$lld %2$@"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld 小时"
+            "value" : "%1$lld %2$@"
           }
         }
       }
     },
-    "%lld m" : {
-      "extractionState" : "stale",
+    "%lld percent" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld m"
+            "value" : "%lld Prozent"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld min"
+            "value" : "%lld por ciento"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld min"
+            "value" : "%lld %"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld min"
+            "value" : "%lld percento"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld 分"
+            "value" : "%lld パーセント"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld 분"
+            "value" : "%lld 퍼센트"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld min"
+            "value" : "%lld por cento"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%lld 分钟"
+            "value" : "%lld 百分比"
           }
         }
       }
@@ -276,59 +272,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld 个放松音效"
-          }
-        }
-      }
-    },
-    "%lld s" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld s"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld s"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld s"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld s"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld 秒"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld 초"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld s"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld 秒"
           }
         }
       }
@@ -751,59 +694,6 @@
         }
       }
     },
-    "Ambient Sounds\nFor Focus and Calm" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Umgebungsgeräusche\nFür Konzentration und Ruhe"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sonidos ambientales\nPara concentración y calma"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sons d'ambiance\nPour la concentration et le calme"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Suoni ambientali\nPer concentrazione e calma"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "アンビエントサウンド\n集中と安らぎのために"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "환경 사운드\n집중과 평온을 위해"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sons ambientes\nPara foco e calma"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "环境音效\n专注与平静"
-          }
-        }
-      }
-    },
     "Ambulance Siren" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -958,6 +848,58 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "外观"
+          }
+        }
+      }
+    },
+    "Artwork" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grafik"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ilustración"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Œuvre d'art"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opera d'arte"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アートワーク"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "작품"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obra de arte"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "艺术作品"
           }
         }
       }
@@ -1904,6 +1846,58 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "分类"
+          }
+        }
+      }
+    },
+    "Category artwork is sourced from Wikimedia Commons and dedicated to the public domain (CC0)." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Bilder dieser Kategorie stammen aus Wikimedia Commons und sind der Public Domain (CC0) gewidmet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las ilustraciones de esta categoría proceden de Wikimedia Commons y están cedidas al dominio público (CC0)."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les illustrations de cette catégorie proviennent de Wikimedia Commons et sont placées dans le domaine public (CC0)."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le immagini della categoria provengono da Wikimedia Commons e sono di dominio pubblico (CC0)."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このカテゴリの画像はウィキメディア・コモンズから提供されており、パブリックドメイン（CC0）として公開されています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 카테고리의 삽화는 위키미디어 공용에서 가져온 것으로, 퍼블릭 도메인(CC0)으로 공개되어 있습니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As imagens desta categoria foram obtidas da Wikimedia Commons e estão dedicadas ao domínio público (CC0)."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "该分类的插图来自维基共享资源，并已归入公有领域（CC0）。"
           }
         }
       }
@@ -3329,7 +3323,58 @@
         }
       }
     },
-    "Focus, relax & sleep\nYume (夢, dream) + Kibun (気分, mood) → Yumibun" : {},
+    "Focus, relax & sleep\nYume (夢, dream) + Kibun (気分, mood) → Yumibun" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konzentrieren, entspannen & schlafen\nYume (夢, Traum) + Kibun (気分, Stimmung) → Yumibun"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Concéntrate, relájate y duerme\nYume (夢, sueño) + Kibun (気分, estado de ánimo) → Yumibun"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Concentration, détente et sommeil\nYume (夢, rêve) + Kibun (気分, humeur) → Yumibun"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Concentrati, rilassati e dormi\nYume (夢, sogno) + Kibun (気分, umore) → Yumibun"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "集中、リラックス、そして睡眠\n「夢」＋「気分」→ Yumibun"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "집중, 휴식, 수면\nYume(夢, 꿈) + Kibun(気分, 기분) → Yumibun"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Concentre-se, relaxe e durma\nYume (夢, sonho) + Kibun (気分, humor) → Yumibun"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "专注、放松、入睡\nYume（夢，梦）+ Kibun（気分，心情）→ Yumibun"
+          }
+        }
+      }
+    },
     "Free Ambient Sounds" : {
       "localizations" : {
         "de" : {
@@ -3956,59 +4001,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "火车车厢内"
-          }
-        }
-      }
-    },
-    "iOS App brought to you by" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Diese iOS-App wird Ihnen präsentiert von"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "App para iOS creada por"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "App iOS proposée par"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "App per iOS realizzata da"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iOS アプリの提供"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iOS 앱 제공"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "App para iOS trazido por"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iOS 应用由以下团队呈现"
           }
         }
       }
@@ -4800,6 +4792,58 @@
         }
       }
     },
+    "Modern" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modern"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moderno"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moderne"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moderno"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "モダン"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "모던"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moderno"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "现代"
+          }
+        }
+      }
+    },
     "Modern shows a photo hero; Simple uses the category strip." : {
       "localizations" : {
         "de" : {
@@ -4852,60 +4896,58 @@
         }
       }
     },
-    "Moodist and Moodist iOS App are licensed under the MIT License" : {
-      "extractionState" : "stale",
+    "Moodist and Yumibun are licensed under the MIT License" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Moodist und die Moodist-iOS-App unterliegen der MIT-Lizenz."
+            "value" : "Moodist und Yumibun unterliegen der MIT-Lizenz."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Moodist y la app de Moodist para iOS están bajo la licencia MIT"
+            "value" : "Moodist y Yumibun están sujetos a la licencia MIT."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Moodist et l'app iOS Moodist sont distribués sous licence MIT"
+            "value" : "Moodist et Yumibun sont distribués sous licence MIT."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Moodist e l'app Moodist per iOS sono concessi in licenza con la licenza MIT"
+            "value" : "Moodist e Yumibun sono distribuiti sotto licenza MIT"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Moodist および Moodist iOS アプリは MIT ライセンスの下で提供されています"
+            "value" : "Moodist および Yumibun は MIT ライセンスの下で提供されています。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Moodist 및 Moodist iOS 앱은 MIT 라이선스에 따라 배포됩니다"
+            "value" : "Moodist와 Yumibun은 MIT 라이선스에 따라 배포됩니다."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O Moodist e o app Moodist para iOS são licenciados sob a licença MIT"
+            "value" : "O Moodist e o Yumibun estão licenciados sob a Licença MIT"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Moodist 及 Moodist iOS 应用基于 MIT 许可证授权"
+            "value" : "Moodist 和 Yumibun 均采用 MIT 许可协议"
           }
         }
       }
     },
-    "Moodist and Yumibun are licensed under the MIT License" : {},
     "Morse Code" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -8206,55 +8248,54 @@
         }
       }
     },
-    "Shuffle Sounds" : {
-      "extractionState" : "stale",
+    "Simple" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sounds mischen"
+            "value" : "Einfach"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sonidos aleatorios"
+            "value" : "Simple"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sons aléatoires"
+            "value" : "Simple"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Suoni casuali"
+            "value" : "Semplice"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "サウンドをシャッフル"
+            "value" : "シンプル"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "사운드 셔플"
+            "value" : "심플"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sons aleatórios"
+            "value" : "Simples"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "随机音效"
+            "value" : "简约"
           }
         }
       }
@@ -8621,59 +8662,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "开始"
-          }
-        }
-      }
-    },
-    "Stop" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stop"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Detener"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Arrêter"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ferma"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "停止"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "정지"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Parar"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "停止"
           }
         }
       }
@@ -11202,107 +11190,54 @@
         }
       }
     },
-    "Yumibun is based on the Open-Source project Moodist" : {},
-    "Modern" : {
+    "Yumibun is based on the Open-Source project Moodist" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Modern"
+            "value" : "Yumibun basiert auf dem Open-Source-Projekt Moodist"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Moderno"
+            "value" : "Yumibun se basa en el proyecto de código abierto Moodist"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Moderne"
+            "value" : "Yumibun s'appuie sur le projet open source Moodist"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Moderno"
+            "value" : "Yumibun si basa sul progetto open source Moodist"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "モダン"
+            "value" : "Yumibunは、オープンソースプロジェクト「Moodist」を基盤としています。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "모던"
+            "value" : "Yumibun은 오픈소스 프로젝트인 Moodist를 기반으로 합니다."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Moderno"
+            "value" : "O Yumibun é baseado no projeto de código aberto Moodist"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "现代"
-          }
-        }
-      }
-    },
-    "Simple" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Einfach"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Simple"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Simple"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Semplice"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "シンプル"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "심플"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Simples"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "简约"
+            "value" : "Yumibun 基于开源项目 Moodist"
           }
         }
       }

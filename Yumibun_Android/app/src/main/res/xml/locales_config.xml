@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Locales the app ships translations for. Declaring this makes Android show a
+  per-app "App language" picker in system Settings, so the user can run Yumibun
+  in a language other than the system one — mirroring iOS's per-app language.
+-->
+<locale-config xmlns:android="http://schemas.android.com/apk/res/android">
+    <locale android:name="en" />
+    <locale android:name="de" />
+    <locale android:name="es" />
+    <locale android:name="fr" />
+    <locale android:name="it" />
+    <locale android:name="pt-BR" />
+    <locale android:name="zh-Hans" />
+    <locale android:name="ja" />
+    <locale android:name="ko" />
+</locale-config>

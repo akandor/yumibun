@@ -33,8 +33,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
-import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -240,18 +238,12 @@ private fun GeneratorRow(
 
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             Icon(Icons.Filled.VolumeUp, null, tint = colors.textTertiary, modifier = Modifier.size(14.dp))
-            Slider(
+            MusicSlider(
                 value = volume,
                 onValueChange = {
                     volume = it
                     if (playing) generator.setVolume(it.toDouble())
                 },
-                valueRange = 0f..1f,
-                colors = SliderDefaults.colors(
-                    thumbColor = colors.accent,
-                    activeTrackColor = colors.accent,
-                    inactiveTrackColor = colors.stroke,
-                ),
                 modifier = Modifier.weight(1f),
             )
             Text("${(volume * 100).toInt()}%", color = colors.textSecondary, fontSize = 11.sp, modifier = Modifier.width(34.dp))

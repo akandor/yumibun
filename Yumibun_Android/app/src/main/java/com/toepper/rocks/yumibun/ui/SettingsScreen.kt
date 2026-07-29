@@ -2,6 +2,7 @@ package com.toepper.rocks.yumibun.ui
 
 import android.content.Intent
 import android.net.Uri
+import android.provider.Settings
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -20,6 +21,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.OpenInNew
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Stop
@@ -29,8 +31,6 @@ import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonColors
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
-import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
@@ -40,6 +40,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -120,6 +121,9 @@ fun SettingsScreen(vm: AppViewModel, topPadding: Dp, bottomPadding: Dp) {
                 }
             }
 
+            // Language (deep-links to the system per-app language screen)
+            LanguageCard()
+
             // Audio
             SettingsCard {
                 Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
@@ -171,6 +175,7 @@ fun SettingsScreen(vm: AppViewModel, topPadding: Dp, bottomPadding: Dp) {
             AboutSection()
             AttributionSection()
             LicenseSection()
+            ArtworkSection()
         }
 
         Spacer(Modifier.height(bottomPadding + 16.dp))
@@ -292,6 +297,45 @@ private fun LicenseSection() {
     }
 }
 
+private data class ArtworkCredit(val category: String, val url: String)
+
+private val artworkCredits = listOf(
+    ArtworkCredit("Nature", "https://commons.wikimedia.org/wiki/File:Creek_in_the_dark_forest_(Unsplash).jpg"),
+    ArtworkCredit("Rain", "https://commons.wikimedia.org/wiki/File:Foggy_glass_unsplash_2.jpg"),
+    ArtworkCredit("Animals", "https://commons.wikimedia.org/wiki/File:Deer,_Watching_(Unsplash).jpg"),
+    ArtworkCredit("Urban", "https://commons.wikimedia.org/wiki/File:Cityscape_and_traffic_light_trails_(Unsplash).jpg"),
+    ArtworkCredit("Places", "https://commons.wikimedia.org/wiki/File:Empty_coffee_shop_interior_with_wooden_table_and_water_skis.jpg"),
+    ArtworkCredit("Transport", "https://commons.wikimedia.org/wiki/File:Outdoor_train_railway_(Unsplash).jpg"),
+    ArtworkCredit("Things", "https://commons.wikimedia.org/wiki/File:Typewriter_(Unsplash).jpg"),
+    ArtworkCredit("Noise", "https://commons.wikimedia.org/wiki/File:Fog_covered_mountain_forest_(Unsplash).jpg"),
+)
+
+@Composable
+private fun ArtworkSection() {
+    val colors = Theme.colors
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(14.dp),
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        Text(Loc.get("Artwork"), color = colors.textSecondary, fontSize = 16.sp, fontWeight = FontWeight.Medium)
+        Text(
+            Loc.get("Category artwork is sourced from Wikimedia Commons and dedicated to the public domain (CC0)."),
+            color = colors.textSecondary,
+            fontSize = 14.sp,
+            textAlign = TextAlign.Center,
+        )
+        SettingsCard {
+            Column {
+                artworkCredits.forEachIndexed { index, credit ->
+                    if (index > 0) HorizontalDivider(color = colors.stroke)
+                    LinkRow(credit.category, credit.url)
+                }
+            }
+        }
+    }
+}
+
 @Composable
 private fun LinkRow(title: String, url: String) {
     val colors = Theme.colors
@@ -318,15 +362,9 @@ private fun VolumeRow(title: String, subtitle: String, value: Float, onChange: (
     Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
         Text(title, color = colors.textPrimary, fontSize = 15.sp, fontWeight = FontWeight.Medium)
         Text(subtitle, color = colors.textTertiary, fontSize = 12.sp)
-        Slider(
+        MusicSlider(
             value = value,
             onValueChange = onChange,
-            valueRange = 0f..1f,
-            colors = SliderDefaults.colors(
-                thumbColor = colors.accent,
-                activeTrackColor = colors.accent,
-                inactiveTrackColor = colors.stroke,
-            ),
         )
     }
 }
@@ -355,6 +393,46 @@ private fun SettingsCard(content: @Composable () -> Unit) {
             .border(1.dp, colors.stroke, RoundedCornerShape(18.dp))
             .padding(16.dp),
     ) { content() }
+}
+
+@Composable
+private fun LanguageCard() {
+    val colors = Theme.colors
+    val context = LocalContext.current
+    val locale = LocalConfiguration.current.locales[0]
+    val currentLanguage = remember(locale) {
+        locale.getDisplayName(locale).replaceFirstChar { it.uppercase(locale) }
+    }
+    SettingsCard {
+        CardHeader(Loc.get("Language"), Loc.get("Set a language just for Yumibun."))
+        Spacer(Modifier.height(12.dp))
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(12.dp))
+                .clickable {
+                    val appLocale = Intent(Settings.ACTION_APP_LOCALE_SETTINGS)
+                        .setData(Uri.fromParts("package", context.packageName, null))
+                    val details = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                        .setData(Uri.fromParts("package", context.packageName, null))
+                    runCatching { context.startActivity(appLocale) }
+                        .onFailure { runCatching { context.startActivity(details) } }
+                }
+                .padding(vertical = 6.dp),
+        ) {
+            Icon(Icons.Filled.Language, contentDescription = null, tint = colors.textSecondary, modifier = Modifier.size(20.dp))
+            Spacer(Modifier.size(12.dp))
+            Text(
+                currentLanguage,
+                color = colors.textPrimary,
+                fontSize = 15.sp,
+                fontWeight = FontWeight.Medium,
+                modifier = Modifier.weight(1f),
+            )
+            Icon(Icons.Filled.OpenInNew, contentDescription = null, tint = colors.textTertiary, modifier = Modifier.size(16.dp))
+        }
+    }
 }
 
 @Composable

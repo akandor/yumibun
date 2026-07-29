@@ -27,6 +27,7 @@ struct SettingsView: View {
                         aboutSection
                         aboutTeopperSection
                         licenseSection
+                        artworkSection
                     }
                     .padding(.horizontal, 20)
                     .padding(.top, 8)
@@ -418,6 +419,38 @@ private var licenseSection: some View {
     }
 }
 
+private var artworkSection: some View {
+    VStack(spacing: 22) {
+        VStack(spacing: 4) {
+            Text("Artwork")
+                .font(.system(size: 16, weight: .medium))
+                .foregroundStyle(Theme.textSecondary)
+
+            Text("Category artwork is sourced from Wikimedia Commons and dedicated to the public domain (CC0).")
+                .font(.system(size: 14))
+                .foregroundStyle(Theme.textSecondary)
+                .multilineTextAlignment(.center)
+                .lineSpacing(2)
+        }
+
+        SettingsCard(padding: 4) {
+            VStack(spacing: 0) {
+                ForEach(Array(About.artworkCredits.enumerated()), id: \.element.category) { index, credit in
+                    if index > 0 {
+                        Divider().overlay(Theme.stroke)
+                    }
+
+                    LinkRow(
+                        title: credit.category,
+                        icon: .symbol("photo.fill"),
+                        url: credit.url
+                    )
+                }
+            }
+        }
+    }
+}
+
 // MARK: - About metadata
 
 enum About {
@@ -431,6 +464,29 @@ enum About {
     static let moodistiOSLicenseURL = URL(string: "https://github.com/akandor/yumibun/blob/main/LICENSE")!
     static let pixabayLicenseURL = URL(string: "https://pixabay.com/service/license-summary/")!
     static let cc0LicenseURL = URL(string: "https://creativecommons.org/publicdomain/zero/1.0/")!
+
+    /// Category hero images, all CC0 from Wikimedia Commons. Mirrors ATTRIBUTION.md.
+    struct ArtworkCredit {
+        let category: String
+        let url: URL
+    }
+
+    static let artworkCredits: [ArtworkCredit] = [
+        credit("Nature", "File:Creek_in_the_dark_forest_(Unsplash).jpg"),
+        credit("Rain", "File:Foggy_glass_unsplash_2.jpg"),
+        credit("Animals", "File:Deer,_Watching_(Unsplash).jpg"),
+        credit("Urban", "File:Cityscape_and_traffic_light_trails_(Unsplash).jpg"),
+        credit("Places", "File:Empty_coffee_shop_interior_with_wooden_table_and_water_skis.jpg"),
+        credit("Transport", "File:Outdoor_train_railway_(Unsplash).jpg"),
+        credit("Things", "File:Typewriter_(Unsplash).jpg"),
+        credit("Noise", "File:Fog_covered_mountain_forest_(Unsplash).jpg"),
+    ]
+
+    private static func credit(_ category: String, _ file: String) -> ArtworkCredit {
+        let base = "https://commons.wikimedia.org/wiki/"
+        let encoded = file.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? file
+        return ArtworkCredit(category: category, url: URL(string: base + encoded)!)
+    }
 
     /// Reads the values Xcode generates from MARKETING_VERSION / CURRENT_PROJECT_VERSION.
     static var versionLine: String {
@@ -520,8 +576,7 @@ private struct SettingsSlider<Accessory: View>: View {
                     .frame(width: 18)
                     .contentTransition(.symbolEffect(.replace))
 
-                Slider(value: $value, in: 0...1)
-                    .tint(Theme.accent)
+                MusicSlider(value: $value)
                     .accessibilityLabel(title)
             }
         }

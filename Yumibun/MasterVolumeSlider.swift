@@ -21,9 +21,7 @@ struct MasterVolumeSlider: View {
                 .background(compact ? nil : Circle().fill(.ultraThinMaterial))
                 .contentTransition(.symbolEffect(.replace))
 
-            Slider(value: $mixer.masterVolume, in: 0...1)
-                .controlSize(compact ? .mini : .regular)
-                .tint(compact ? Theme.accent : Theme.textPrimary)
+            MusicSlider(value: $mixer.masterVolume, tint: compact ? Theme.accent : Theme.textPrimary)
                 .accessibilityLabel("Overall volume")
         }
     }
